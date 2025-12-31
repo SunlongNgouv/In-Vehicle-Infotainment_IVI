@@ -1,6 +1,6 @@
-<br>IVI QA Automation Framework (Pytest + BDD)</br>
+# IVI QA Automation Framework (Pytest + BDD)
 
-📌 Project Overview
+## 📌 Project Overview
 
 This repository demonstrates my progressive learning and practical application of QA automation principles using Python and Pytest, following a real-world SDET workflow.
 
@@ -8,112 +8,86 @@ The project simulates In-Vehicle Infotainment (IVI) system testing, inspired by 
 
 Rather than waiting to master every tool upfront, this project follows a layered evolution approach, mirroring how QA automation is developed in production environments.
 
-🎯 Project Goals
+## 🎯 Project Goals
 
-Build a scalable Pytest-based automation framework
+1. Build a scalable Pytest-based automation framework
+2. Apply BDD (Behavior-Driven Development) for clear test design
+3. Demonstrate test discovery, fixtures, and parametrization
+4. Show learning progression from core testing logic to advanced tooling
+5. Prepare a foundation for Android IVI, Appium, CI/CD, and reporting
 
-Apply BDD (Behavior-Driven Development) for clear test design
-
-Demonstrate test discovery, fixtures, and parametrization
-
-Show learning progression from core testing logic to advanced tooling
-
-Prepare a foundation for Android IVI, Appium, CI/CD, and reporting
-
-🧠 Learning Progression Strategy
+## 🧠 Learning Progression Strategy
 
 This project is intentionally developed in phases, not all at once.
 
-✅ Phase 1: Core QA Automation (Current)
+#### ✅ Phase 1: Core QA Automation (Current)
 
-Focus:
+__Focus:__
 
 Solid fundamentals before tooling complexity
 
-What’s included:
+__What’s included:__
 
-Pytest test discovery
+- Pytest test discovery
+- Fixtures (session, function scope)
+- Parametrized tests
+- BDD scenarios using pytest-bdd
+- Mocked IVI system logic (no UI dependency)
+- Clean project structure
+- Readable, business-focused test scenarios
 
-Fixtures (session, function scope)
+__Why this phase matters:__
 
-Parametrized tests
+- Ensures tests are maintainable and scalable
+- Separates test design from implementation
+- Matches real-world SDET onboarding practices
 
-BDD scenarios using pytest-bdd
+#### 🔜 Phase 2: Android IVI UI Automation (Planned)
 
-Mocked IVI system logic (no UI dependency)
+__Planned additions:__
 
-Clean project structure
+- Appium integration
+- Android Emulator (IVI-style apps)
+- Page Object Model (POM)
+- Replace mocked system with real UI interactions
 
-Readable, business-focused test scenarios
+__Why later:__
 
-Why this phase matters:
+- UI automation is most effective after framework stability
+- Prevents brittle tests and overengineering early on
 
-Ensures tests are maintainable and scalable
+#### 🔜 Phase 3: Reporting & Observability (Planned)
 
-Separates test design from implementation
+__Planned additions:__
 
-Matches real-world SDET onboarding practices
+- Allure reporting
+- Screenshot & log attachments
+- Failure trend analysis
 
-🔜 Phase 2: Android IVI UI Automation (Planned)
+__Purpose:__
 
-Planned additions:
+- Improve test triage efficiency
+- Support CI/CD feedback loops
 
-Appium integration
+#### 🔜 Phase 4: CI/CD & Metrics (Optional)
 
-Android Emulator (IVI-style apps)
+__Potential extensions:__
 
-Page Object Model (POM)
+- GitHub Actions or Jenkins
+- Test execution on pull requests
+- Test stability metrics
+- Grafana dashboards (optional)
 
-Replace mocked system with real UI interactions
-
-Why later:
-
-UI automation is most effective after framework stability
-
-Prevents brittle tests and overengineering early on
-
-🔜 Phase 3: Reporting & Observability (Planned)
-
-Planned additions:
-
-Allure reporting
-
-Screenshot & log attachments
-
-Failure trend analysis
-
-Purpose:
-
-Improve test triage efficiency
-
-Support CI/CD feedback loops
-
-🔜 Phase 4: CI/CD & Metrics (Optional)
-
-Potential extensions:
-
-GitHub Actions or Jenkins
-
-Test execution on pull requests
-
-Test stability metrics
-
-Grafana dashboards (optional)
-
-🧪 Why BDD?
+## 🧪 Why BDD?
 
 BDD is used to:
-
-Express test cases in business-readable language
-
-Improve collaboration between QA, developers, and stakeholders
-
-Keep test intent clear even as implementation changes
+- Express test cases in business-readable language
+- Improve collaboration between QA, developers, and stakeholders
+- Keep test intent clear even as implementation changes
 
 Example:
 
 Feature: IVI system boot
-
   Scenario: System boots successfully
     Given the IVI system is powered off
     When the system is powered on
@@ -122,7 +96,7 @@ Feature: IVI system boot
 
 This approach allows test logic to evolve without rewriting scenarios.
 
-📂 Project Structure
+## 📂 Project Structure
 ```
 ivi-qa-framework/
 ├── features/
@@ -145,65 +119,46 @@ ivi-qa-framework/
 
 This structure reflects industry-standard QA automation design.
 
-🛠️ Technologies Used (Current Phase)
+## 🛠️ Technologies Used (Current Phase)
 
-Python
+- Python
+- Pytest
+- pytest-bdd
+- Logging
+- Mock-based system simulation
 
-Pytest
-
-pytest-bdd
-
-Logging
-
-Mock-based system simulation
-
-🚗 Automotive & IVI Context
+## 🚗 Automotive & IVI Context
 
 Although this phase uses mocked logic, the test scenarios and structure are designed to mirror real IVI systems, such as:
 
-System boot validation
+- System boot validation
+- Media service availability
+- Bluetooth service behavior
+- Settings state validation
+- This ensures the framework can later be extended to:
+- Android Automotive OS
+- Hardware-in-the-loop (HIL) testing
+- Embedded Linux environments
 
-Media service availability
-
-Bluetooth service behavior
-
-Settings state validation
-
-This ensures the framework can later be extended to:
-
-Android Automotive OS
-
-Hardware-in-the-loop (HIL) testing
-
-Embedded Linux environments
-
-📈 Why This Project Matters
+## 📈 Why This Project Matters
 
 This repository demonstrates:
-
-QA automation thinking, not just scripting
-
-Ability to learn tools incrementally
-
-Strong understanding of test architecture
-
-Readiness for SDET / QA Automation Engineer roles
+- QA automation thinking, not just scripting
+- Ability to learn tools incrementally
+- Strong understanding of test architecture
+- Readiness for SDET / QA Automation Engineer roles
 
 It reflects how automation frameworks are built and evolved in real engineering teams.
 
-🔄 Future Enhancements
+## 🔄 Future Enhancements
 
-Appium-based Android IVI automation
+- Appium-based Android IVI automation
+- Allure test reporting
+- CI pipeline integration
+- Image-based UI validation
+- Protocol simulation (CAN / Bluetooth scenarios)
 
-Allure test reporting
-
-CI pipeline integration
-
-Image-based UI validation
-
-Protocol simulation (CAN / Bluetooth scenarios)
-
-📬 Author
+## 📬 Author
 
 Sunlong Ngouv
 QA Automation / Application Support / System Integration
