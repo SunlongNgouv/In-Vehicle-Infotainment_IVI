@@ -11,7 +11,7 @@ print('Feature file exists or not: ', Feature_File.exists())
 
 scenarios(str(Feature_File))
 
-#### 1
+#1 ---------- Home Screen ----------
 
 @given('the IVI system is powered off')
 def default_state(ivi_system):
@@ -31,7 +31,7 @@ def home_screen_available(ivi_system):
 def system_state(ivi_system):
     assert ivi_system.power_state == 'ON'
 
-#### 2
+#2 ---------- Boot time ----------
 
 @when('the system is powered on')
 def system_on(ivi_system):
@@ -39,9 +39,9 @@ def system_on(ivi_system):
 
 @then('the boot time should be less than 30 seconds')
 def boot_time(ivi_system):
-    assert ivi_system.boot_time_default < 30
+    assert ivi_system.boot_time < 30
 
-##### 3
+#3 ---------- Bluetooth + media ----------
 
 @given('Bluetooth is enabled')
 def bluetooth_enabled(ivi_system):
@@ -52,8 +52,9 @@ def bluetooth_enabled(ivi_system):
 
 @given('media is playing')
 def media_is_playing(ivi_system):
+    ivi_system.enable_media_library()
     ivi_system.enable_media_playing()
-    assert ivi_system.media_playing == True
+    assert ivi_system.media_playing_enabled is True
 
 @when('the system is powered off')
 def system_off(ivi_system):
@@ -69,14 +70,13 @@ def bluetooth_disabled(ivi_system):
 
 @then('media should not be playing')
 def media_disabled(ivi_system):
-    assert ivi_system.is_media_playing() is False
+    assert ivi_system.media_playing_enabled is False
 
-#### 4
+#4 ---------- Battery / engine boot ----------
 
 @given('the battery voltage is 10.5 volts')
 def battery_state(ivi_system):
     ivi_system.battery_volt_default = 10.5
-    assert ivi_system.battery_volt_default == 10.5
 
 @when('the system is powered on')
 def system_on(ivi_system):
@@ -85,10 +85,10 @@ def system_on(ivi_system):
 @then('the boot should fail with error "LOW_VOLTAGE"')
 def engine_boot(ivi_system):
     with pytest.raises(RuntimeError) as excinfo:
-        assert ivi_system.enable_boot_engine()
-    print(str(excinfo.value))
+        ivi_system.enable_boot_engine()
+    assert str(excinfo.value) == "LOW_VOLTAGE"
 
-#### 5
+#5 ---------- Battery / engine boot (scenario outline) ----------
 
 @given(parsers.parse('the battery voltage is {voltage} volts'), target_fixture = 'battery_boot')
 def battery_state(ivi_system, voltage):
