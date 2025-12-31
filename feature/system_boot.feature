@@ -21,18 +21,18 @@ Feature: IVI System Boot
     Then Bluetooth should be disabled
     And media should not be playing
 
-#  Scenario: Boot fails if battery voltage is too low
-#    Given the battery voltage is 10.5 volts
-#    When the system is powered on
-#    Then the boot should fail with error "LOW_VOLTAGE"
-#
-#  Scenario Outline: Boot behavior depends on battery voltage
-#    Given the battery voltage is <voltage> volts
-#    When the system is powered on
-#    Then the boot result should be "<result>"
-#
-#    Examples:
-#      | voltage | result      |
-#      | 12.6    | SUCCESS     |
-#      | 11.8    | SUCCESS     |
-#      | 10.9    | LOW_VOLTAGE |
+  Scenario: Boot fails if battery voltage is too low
+    Given the battery voltage is 10.5 volts
+    When the system is powered on
+    Then the boot should fail with error "LOW_VOLTAGE"
+
+  Scenario Outline: Boot behavior depends on battery voltage
+    Given the battery voltage is <voltage> volts
+    When the system is powered on
+    Then the boot result should be "<result>"
+
+    Examples:
+      | voltage | result      |
+      | 12.6    | SUCCESS     |
+      | 11.8    | SUCCESS     |
+      | 10.9    | LOW_VOLTAGE |

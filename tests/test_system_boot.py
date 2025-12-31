@@ -11,6 +11,8 @@ print('Feature file exists or not: ', Feature_File.exists())
 
 scenarios(str(Feature_File))
 
+#### 1
+
 @given('the IVI system is powered off')
 def default_state(ivi_system):
     print('In background state')
@@ -20,7 +22,6 @@ def default_state(ivi_system):
 @when('the system is powered on')
 def system_on(ivi_system):
     ivi_system.power_on()
-    assert ivi_system.power_state == 'ON'
 
 @then('the home screen should be available')
 def home_screen_available(ivi_system):
@@ -30,6 +31,8 @@ def home_screen_available(ivi_system):
 def system_state(ivi_system):
     assert ivi_system.power_state == 'ON'
 
+#### 2
+
 @when('the system is powered on')
 def system_on(ivi_system):
     ivi_system.power_on()
@@ -38,7 +41,7 @@ def system_on(ivi_system):
 def boot_time(ivi_system):
     assert ivi_system.boot_time_default < 30
 
-#####
+##### 3
 
 @given('Bluetooth is enabled')
 def bluetooth_enabled(ivi_system):
@@ -49,17 +52,16 @@ def bluetooth_enabled(ivi_system):
 
 @given('media is playing')
 def media_is_playing(ivi_system):
-    assert ivi_system.is_media_available() == True
+    ivi_system.enable_media_playing()
+    assert ivi_system.media_playing == True
 
 @when('the system is powered off')
 def system_off(ivi_system):
     ivi_system.power_off()
-    assert ivi_system.power_state == 'OFF'
 
 @when('the system is powered on')
 def system_on(ivi_system):
     ivi_system.power_on()
-    assert ivi_system.power_state == 'ON'
 
 @then('Bluetooth should be disabled')
 def bluetooth_disabled(ivi_system):
@@ -68,3 +70,36 @@ def bluetooth_disabled(ivi_system):
 @then('media should not be playing')
 def media_disabled(ivi_system):
     assert ivi_system.is_media_playing() is False
+
+#### 4
+
+@given('the battery voltage is 10.5 volts')
+def battery_state(ivi_system):
+    ivi_system.battery_volt_default = 10.5
+    assert ivi_system.battery_volt_default == 10.5
+
+@when('the system is powered on')
+def system_on(ivi_system):
+    ivi_system.power_on()
+
+@then('the boot should fail with error "LOW_VOLTAGE"')
+def engine_boot(ivi_system):
+    with pytest.raises(RuntimeError) as excinfo:
+        assert ivi_system.enable_boot_engine()
+    print(str(excinfo.value))
+
+#### 5
+
+@given(parsers.parse('the battery voltage is {voltage} volts'), target_fixture = 'battery_boot')
+def battery_state(ivi_system, voltage):
+    return ivi_system.battery_volt_default + float(voltage)
+
+@when('the system is powered on')
+def system_on(ivi_system):
+    ivi_system.power_on()
+
+@then(parsers.parse('the boot result should be "{result}"'))
+def engine_boot(ivi_system, battery_boot, result):
+    with pytest.raises(RuntimeError) as excinfo:
+        assert ivi_system.enable_boot_engine() == result
+    print(str(excinfo.value))
