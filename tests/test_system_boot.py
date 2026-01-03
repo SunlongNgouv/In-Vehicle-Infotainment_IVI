@@ -3,6 +3,8 @@ from pytest_bdd import scenarios, given, when, then, parsers
 
 import pytest
 
+from ivi_qa_framework.src.ivi_system import PowerState
+
 File = 'system_boot.feature'
 File_Dir = 'feature'
 Base_Dir = Path(__file__).resolve().parent.parent
@@ -17,7 +19,7 @@ scenarios(str(Feature_File))
 def default_state(ivi_system):
     print('In background state')
     ivi_system.power_off()
-    assert ivi_system.power_state == 'OFF'
+    assert ivi_system.power_state == PowerState.OFF
 
 @when('the system is powered on')
 def system_on(ivi_system):
@@ -29,7 +31,7 @@ def home_screen_available(ivi_system):
 
 @then('the system state should be "ON"')
 def system_state(ivi_system):
-    assert ivi_system.power_state == 'ON'
+    assert ivi_system.power_state == PowerState.ON
 
 #2 ---------- Boot time ----------
 
@@ -46,7 +48,7 @@ def boot_time(ivi_system):
 @given('Bluetooth is enabled')
 def bluetooth_enabled(ivi_system):
     ivi_system.power_on()
-    assert ivi_system.power_state == 'ON'
+    assert ivi_system.power_state == PowerState.ON
     ivi_system.enable_bluetooth()
     assert ivi_system.bluetooth_enabled is True
 
@@ -92,7 +94,7 @@ def engine_boot(ivi_system):
 
 @given(parsers.parse('the battery voltage is {voltage} volts'), target_fixture = 'battery_boot')
 def battery_state(ivi_system, voltage):
-    return ivi_system.battery_volt_default + float(voltage)
+    return ivi_system.battery_voltage + float(voltage)
 
 @when('the system is powered on')
 def system_on(ivi_system):

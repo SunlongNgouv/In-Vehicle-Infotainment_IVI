@@ -15,13 +15,13 @@ Feature: Media Playback
     Then media should be playing
     And the current track should be "Drive Time"
 
-#  Scenario: Pause and resume playback
-#    Given media is playing
+  Scenario: Pause and resume playback
+    Given media is playing
 #    When the user presses pause
 #    Then media should be paused
 #    When the user presses play
 #    Then media should be playing
-#
+
 #  Scenario: Skip to next track updates the current track
 #    Given a playlist exists with tracks:
 #      | title       |

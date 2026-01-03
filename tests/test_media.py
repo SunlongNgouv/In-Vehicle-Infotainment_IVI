@@ -1,6 +1,6 @@
 from pytest_bdd import scenarios, given, when, then, parsers
 from pathlib import Path
-from ivi_qa_framework.src.ivi_system import IVISystem
+from ivi_qa_framework.src.ivi_system import *
 
 import pytest
 
@@ -16,7 +16,7 @@ scenarios(str(Feature_File))
 def system_on(ivi_system):
     print('In background state')
     ivi_system.power_on()
-    assert ivi_system.power_state == 'ON'
+    assert ivi_system.power_state == PowerState.ON
 
 @given('the media app is opened')
 def media_enable(ivi_system):
@@ -37,7 +37,7 @@ def drive_time_enabled(ivi_system):
     ivi_system.set_driving_time(8,0)  # rush hours typically is at 6-10 a.m. and 3-7 p.m. for 'Driver Time' mode to be available
     ivi_system.is_rush_hour()
     ivi_system.set_drive_time_mode()
-    assert ivi_system.drive_time_mode_available is True
+    assert ivi_system.drive_time_mode_available == TrackDriveTime.ON
 
 @when('the user selects track "Drive Time"')
 def drive_time_selected(ivi_system):
@@ -58,3 +58,16 @@ def current_track(ivi_system):
     assert ivi_system.track_drive_time == 'Drive Time'
 
 #3 ---------- PPause and resume playback ----------
+@given('media is playing')
+def media_played(ivi_system):
+    ivi_system.power_on()
+    ivi_system.enable_media_library()
+    ivi_system.enable_media_playing()
+    assert ivi_system.media_playing_enabled is True
+#
+# @when('the user presses pause')
+#
+#
+# @then('media should be paused')
+# @then('the user presses play')
+# @then('media should be playing')
