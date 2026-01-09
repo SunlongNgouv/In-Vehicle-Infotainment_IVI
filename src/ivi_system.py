@@ -1,6 +1,6 @@
 from datetime import time
 from enum import Enum
-
+import pytest
 
 class MediaState(Enum):
     PLAYING = "Playing"
@@ -25,7 +25,7 @@ class IVISystem:
         self.boot_time = self.max_boot_time - 1
 
         self.media_ready = False
-        self.media_playing_enabled = False
+        #self.media_playing_enabled = False
         self.media_library_visible = False
         self.media_state = MediaState.STOPPED
 
@@ -36,7 +36,6 @@ class IVISystem:
         self.drive_time_mode_available = TrackDriveTime.OFF
         self.drive_time_mode_run = TrackDriveTime.OFF
         self.drive_time_state = TrackDriveTime.OFF
-        self.track_drive_time = ''
 
         self.current_driving_time = time(0,0)
         self.rush_hours = [(time(6,0),time(10,0)), (time(15,0),time(19,0))]
@@ -53,7 +52,7 @@ class IVISystem:
 
         self.media_ready = False
         self.media_library_visible = False
-        self.media_playing_enabled = False
+        #self.media_playing_enabled = False
         self.media_state = MediaState.STOPPED
 
         self.drive_time_mode_available = TrackDriveTime.OFF
@@ -79,14 +78,31 @@ class IVISystem:
         else:
             self.media_library_visible = True
 
+    # @pytest.mark.xfail('Deprecated value! Please use control_media_playback()')
+    # def enable_media_playing(self):
+    #     if self.media_library_visible != True:
+    #         raise RuntimeError("Media library is not ready yet")
+    #     else:
+    #
+    #         self.media_playing_enabled = True
+    #         self.media_state = MediaState.PLAYING
 
-
-    def enable_media_playing(self):
+    def control_media_playback(self, action:str):
+        self.last_media_action = action.lower()
         if self.media_library_visible != True:
             raise RuntimeError("Media library is not ready yet")
+
+        if action == 'play':
+            if self.media_state in [MediaState.STOPPED, MediaState.PAUSED]:
+                self.media_state = MediaState.PLAYING
+
+        elif action == 'pause':
+            if self.media_state == MediaState.PLAYING:
+                self.media_state = MediaState.PAUSED
+
         else:
-            self.media_playing_enabled = True
-            self.media_state = MediaState.PLAYING
+            raise RuntimeError("Invalid action")
+            print (f"Unsupported media action: {action}")
 
     def enable_media_drive_time(self):
         if not self.media_library_visible:
@@ -96,8 +112,7 @@ class IVISystem:
         else:
             self.media_playing_enabled = True
             self.media_state = MediaState.PLAYING
-            self.track_drive_time = TrackDriveTime.ON
-            self.track_drive_time = 'Drive Time'
+            self.drive_time_state = TrackDriveTime.ON
 
     def set_battery_volt_now(self, volt:float):
         self.battery_voltage = volt
@@ -143,12 +158,16 @@ class IVISystem:
         return any(start <= self.current_driving_time <= end for start, end in self.rush_hours)
 
 
-
 if __name__ == "__main__":
     system = IVISystem()
-    system.set_driving_time(hour=12, minute=30)
-    print(system.current_driving_time)
-    print(system.is_rush_hour())
+    # system.set_driving_time(hour=12, minute=30)
+    # print(system.current_driving_time)
+    # print(system.is_rush_hour())
+    system.power_on()
+    system.enable_media_library()
+    system.control_media_playback('play')
+    print(system.media_state)
+
 
 
 

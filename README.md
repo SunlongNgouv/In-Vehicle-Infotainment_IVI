@@ -1,6 +1,6 @@
 # IVI QA Automation Framework (Pytest + BDD)
 
-## 📌 Project Overview
+### 📌 Project Overview
 
 This repository demonstrates my progressive learning and practical application of QA automation principles using Python and Pytest, following a real-world SDET workflow.
 
@@ -8,7 +8,7 @@ The project simulates In-Vehicle Infotainment (IVI) system testing, inspired by 
 
 Rather than waiting to master every tool upfront, this project follows a layered evolution approach, mirroring how QA automation is developed in production environments.
 
-## 🎯 Project Goals
+### 🎯 Project Goals
 
 1. Build a scalable Pytest-based automation framework
 2. Apply BDD (Behavior-Driven Development) for clear test design
@@ -16,11 +16,57 @@ Rather than waiting to master every tool upfront, this project follows a layered
 4. Show learning progression from core testing logic to advanced tooling
 5. Prepare a foundation for Android IVI, Appium, CI/CD, and reporting
 
-## 🧠 Learning Progression Strategy
+### 🚀 Quick Run
+
+This project uses pytest to validate a mocked In-Vehicle Infotainment (IVI) system, covering system boot, media, and Bluetooth functionality.
+````
+1️⃣ Prerequisites
+
+Make sure you have Python 3.9+ installed.
+
+Check your python version 
+> python --version
+
+2️⃣ Create & activate virtual environment (recommended)
+> python -m venv .venv
+
+Windows: 
+> .venv\Scripts\activate
+
+macOS / Linux: 
+> source .venv/bin/activate
+
+3️⃣ Install dependencies
+> pip install -r requirements.txt
+
+If requirements.txt does not work well as expected:
+> pip install pytest
+
+4️⃣ Run all tests
+> pytest
+
+5️⃣ Run tests with verbose output
+> pytest -v
+
+6️⃣ Run a specific feature or test file
+Run system boot tests:
+> pytest tests/test_system_boot.py
+
+Run media tests:
+> pytest tests/test_media.py
+
+7️⃣ Run tests by keyword (quick debugging)
+> pytest -k test_media
+
+8️⃣ View test summary only (clean CI-style output)
+> pytest -q
+````
+
+### 🧠 Learning Progression Strategy
 
 This project is intentionally developed in phases, not all at once.
 
-#### ✅ Phase 1: Core QA Automation (Current)
+##### ✅ Phase 1: Core QA Automation (Current)
 
 __Focus:__
 
@@ -42,7 +88,7 @@ __Why this phase matters:__
 - Separates test design from implementation
 - Matches real-world SDET onboarding practices
 
-#### 🔜 Phase 2: Android IVI UI Automation (Planned)
+##### 🔜 Phase 2: Android IVI UI Automation (Planned)
 
 __Planned additions:__
 
@@ -56,7 +102,7 @@ __Why later:__
 - UI automation is most effective after framework stability
 - Prevents brittle tests and overengineering early on
 
-#### 🔜 Phase 3: Reporting & Observability (Planned)
+##### 🔜 Phase 3: Reporting & Observability (Planned)
 
 __Planned additions:__
 
@@ -69,7 +115,7 @@ __Purpose:__
 - Improve test triage efficiency
 - Support CI/CD feedback loops
 
-#### 🔜 Phase 4: CI/CD & Metrics (Optional)
+##### 🔜 Phase 4: CI/CD & Metrics (Optional)
 
 __Potential extensions:__
 
@@ -78,7 +124,7 @@ __Potential extensions:__
 - Test stability metrics
 - Grafana dashboards (optional)
 
-## 🧪 Why BDD?
+### 🧪 Why BDD?
 
 BDD is used to:
 - Express test cases in business-readable language
@@ -96,7 +142,7 @@ Feature: IVI system boot
 
 This approach allows test logic to evolve without rewriting scenarios.
 
-## 📂 Project Structure
+### 📂 Project Structure
 ```
 ivi-qa-framework/
 ├── features/
@@ -107,19 +153,20 @@ ivi-qa-framework/
 ├── tests/
 │   ├── test_system.py
 │   ├── test_media.py
-│   ├── test_bluetooth.py
+│   ├── test_bluetooth.py (TBA)
 │   └── conftest.py
 │
 ├── src/
 │   └── ivi_system.py   # mocked IVI logic
 │
+├── .gitignore
 ├── pytest.ini
 └── README.md
 ```
 
 This structure reflects industry-standard QA automation design.
 
-## 🛠️ Technologies Used (Current Phase)
+### 🛠️ Technologies Used (Current Phase)
 
 - Python
 - Pytest
@@ -127,7 +174,7 @@ This structure reflects industry-standard QA automation design.
 - Logging
 - Mock-based system simulation
 
-## 🚗 Automotive & IVI Context
+### 🚗 Automotive & IVI Context
 
 Although this phase uses mocked logic, the test scenarios and structure are designed to mirror real IVI systems, such as:
 
@@ -140,7 +187,7 @@ Although this phase uses mocked logic, the test scenarios and structure are desi
 - Hardware-in-the-loop (HIL) testing
 - Embedded Linux environments
 
-## 📈 Why This Project Matters
+### 📈 Why This Project Matters
 
 This repository demonstrates:
 - QA automation thinking, not just scripting
@@ -150,7 +197,7 @@ This repository demonstrates:
 
 It reflects how automation frameworks are built and evolved in real engineering teams.
 
-## 🔄 Future Enhancements
+### 🔄 Future Enhancements
 
 - Appium-based Android IVI automation
 - Allure test reporting
@@ -158,7 +205,7 @@ It reflects how automation frameworks are built and evolved in real engineering 
 - Image-based UI validation
 - Protocol simulation (CAN / Bluetooth scenarios)
 
-## 📬 Author
+### 📬 Author
 
 Sunlong Ngouv
 QA Automation / Application Support / System Integration

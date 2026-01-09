@@ -1,3 +1,5 @@
+from urllib.parse import uses_relative
+
 from pytest_bdd import scenarios, given, when, then, parsers
 from pathlib import Path
 from ivi_qa_framework.src.ivi_system import *
@@ -55,19 +57,31 @@ def media_played(ivi_system):
 
 @then('the current track should be "Drive Time"')
 def current_track(ivi_system):
-    assert ivi_system.track_drive_time == 'Drive Time'
+    assert ivi_system.drive_time_state == TrackDriveTime.ON
 
-#3 ---------- PPause and resume playback ----------
+#3 ---------- Pause and resume playback ----------
 @given('media is playing')
-def media_played(ivi_system):
+def media_played_default(ivi_system):
     ivi_system.power_on()
     ivi_system.enable_media_library()
-    ivi_system.enable_media_playing()
-    assert ivi_system.media_playing_enabled is True
-#
-# @when('the user presses pause')
-#
-#
-# @then('media should be paused')
-# @then('the user presses play')
-# @then('media should be playing')
+    user_interface = 'play'
+    ivi_system.control_media_playback(action = user_interface)
+    assert ivi_system.media_state == MediaState.PLAYING
+
+@when('the user presses pause')
+def media_paused_action(ivi_system):
+    user_interface = 'pause'
+    ivi_system.control_media_playback(action = user_interface)
+
+@then('media should be paused')
+def media_paused_sate(ivi_system):
+    assert ivi_system.media_state == MediaState.PAUSED
+
+@when('the user presses play')
+def media_played_action(ivi_system):
+    user_interface = 'play'
+    ivi_system.control_media_playback(action = user_interface)
+
+@then('media should be playing')
+def media_played_state(ivi_system):
+    assert ivi_system.media_state == MediaState.PLAYING

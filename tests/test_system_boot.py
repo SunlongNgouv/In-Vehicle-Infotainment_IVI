@@ -3,7 +3,7 @@ from pytest_bdd import scenarios, given, when, then, parsers
 
 import pytest
 
-from ivi_qa_framework.src.ivi_system import PowerState
+from ivi_qa_framework.src.ivi_system import PowerState, MediaState
 
 File = 'system_boot.feature'
 File_Dir = 'feature'
@@ -13,13 +13,15 @@ print('Feature file exists or not: ', Feature_File.exists())
 
 scenarios(str(Feature_File))
 
-#1 ---------- Home Screen ----------
+# ---------- Background ----------
 
 @given('the IVI system is powered off')
 def default_state(ivi_system):
     print('In background state')
     ivi_system.power_off()
     assert ivi_system.power_state == PowerState.OFF
+
+#1 ---------- Cold boot succeeds and home screen becomes available ----------
 
 @when('the system is powered on')
 def system_on(ivi_system):
@@ -33,7 +35,7 @@ def home_screen_available(ivi_system):
 def system_state(ivi_system):
     assert ivi_system.power_state == PowerState.ON
 
-#2 ---------- Boot time ----------
+#2 ---------- Boot time is within acceptable threshold ----------
 
 @when('the system is powered on')
 def system_on(ivi_system):
@@ -43,7 +45,7 @@ def system_on(ivi_system):
 def boot_time(ivi_system):
     assert ivi_system.boot_time < 30
 
-#3 ---------- Bluetooth + media ----------
+#3 ---------- Power cycle resets transient states ----------
 
 @given('Bluetooth is enabled')
 def bluetooth_enabled(ivi_system):
@@ -54,9 +56,10 @@ def bluetooth_enabled(ivi_system):
 
 @given('media is playing')
 def media_is_playing(ivi_system):
+    user_interface = 'play'
     ivi_system.enable_media_library()
-    ivi_system.enable_media_playing()
-    assert ivi_system.media_playing_enabled is True
+    ivi_system.control_media_playback(action = user_interface)
+    assert ivi_system.media_state == MediaState.PLAYING
 
 @when('the system is powered off')
 def system_off(ivi_system):
@@ -72,9 +75,9 @@ def bluetooth_disabled(ivi_system):
 
 @then('media should not be playing')
 def media_disabled(ivi_system):
-    assert ivi_system.media_playing_enabled is False
+    assert ivi_system.media_state == MediaState.STOPPED
 
-#4 ---------- Battery / engine boot ----------
+#4 ---------- Boot fails if battery voltage is too low ----------
 
 @given('the battery voltage is 10.5 volts')
 def battery_state(ivi_system):
@@ -90,7 +93,7 @@ def engine_boot(ivi_system):
         ivi_system.enable_boot_engine()
     assert str(excinfo.value) == "LOW_VOLTAGE"
 
-#5 ---------- Battery / engine boot (scenario outline) ----------
+#5 ---------- Boot behavior depends on battery voltage ----------
 
 @given(parsers.parse('the battery voltage is {voltage} volts'), target_fixture = 'battery_boot')
 def battery_state(ivi_system, voltage):
